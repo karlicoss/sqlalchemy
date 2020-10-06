@@ -417,8 +417,6 @@ class StatementError(SQLAlchemyError):
         )
 
     def _sql_message(self, as_unicode):
-        from sqlalchemy.sql import util
-
         details = [self._message(as_unicode=as_unicode)]
         if self.statement:
             if not as_unicode and not compat.py3k:
@@ -434,6 +432,8 @@ class StatementError(SQLAlchemyError):
                         "[SQL parameters hidden due to hide_parameters=True]"
                     )
                 else:
+                    from sqlalchemy.sql import util
+                    
                     params_repr = util._repr_params(
                         self.params, 10, ismulti=self.ismulti
                     )
